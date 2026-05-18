@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" class="antialiased">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>YT Apps Hub</title>
+
+  <link rel="icon" href="https://lh3.googleusercontent.com/d/1IUz-NOgOY88Uxvj8Mh5ZflCQC8kIrubz">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Outfit:wght@500;600&display=swap" rel="stylesheet">
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'media',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Outfit', 'sans-serif'],
+          },
+          screens: {
+            xs: '380px',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .p-safe {
+        padding-top: max(2rem, env(safe-area-inset-top));
+        padding-right: max(1.25rem, env(safe-area-inset-right));
+        padding-bottom: max(2rem, env(safe-area-inset-bottom));
+        padding-left: max(1.25rem, env(safe-area-inset-left));
+      }
+    }
+
+    * {
+      -webkit-tap-highlight-color: transparent;
+    }
+  </style>
+</head>
+
+<body class="bg-[#F8F9FA] dark:bg-[#0A0A0A] text-neutral-900 dark:text-neutral-100 min-h-screen">
+
+  <main class="max-w-[520px] mx-auto w-full p-safe">
+
+    <!-- Header -->
+    <header class="mb-8 pl-1">
+      <h1 class="font-display text-2xl xs:text-[26px] font-semibold tracking-tight text-neutral-950 dark:text-white mb-1.5">
+        YT Apps Hub
+      </h1>
+
+      <p class="text-[14px] text-neutral-500 dark:text-neutral-400">
+        Latest verified APK distributions
+      </p>
+    </header>
+
+    <!-- YouTube Card -->
+    <article class="bg-white dark:bg-[#141414] rounded-2xl p-4 mb-4 border border-neutral-200/80 dark:border-neutral-800/80 shadow-sm flex items-center gap-4">
+
+      <img
+        src="https://lh3.googleusercontent.com/d/1IUz-NOgOY88Uxvj8Mh5ZflCQC8kIrubz"
+        alt="YouTube"
+        class="w-[46px] h-[46px] rounded-[12px] object-cover shrink-0"
+      >
+
+      <div class="flex-1 min-w-0">
+        <h2 class="font-display text-[16px] font-medium text-neutral-950 dark:text-white mb-1">
+          YouTube
+        </h2>
+
+        <p id="ytDate" class="text-[13px] text-neutral-500 dark:text-neutral-400">
+          Checking for updates...
+        </p>
+      </div>
+
+      <a
+        id="ytBtn"
+        target="_blank"
+        class="inline-flex items-center justify-center h-10 px-5 bg-black dark:bg-white text-white dark:text-black rounded-full text-[13px] font-medium active:scale-95 transition"
+      >
+        Download
+      </a>
+    </article>
+
+    <!-- YouTube Music Card -->
+    <article class="bg-white dark:bg-[#141414] rounded-2xl p-4 border border-neutral-200/80 dark:border-neutral-800/80 shadow-sm flex items-center gap-4">
+
+      <img
+        src="https://lh3.googleusercontent.com/d/1IUz-NOgOY88Uxvj8Mh5ZflCQC8kIrubz"
+        alt="YouTube Music"
+        class="w-[46px] h-[46px] rounded-[12px] object-cover shrink-0"
+      >
+
+      <div class="flex-1 min-w-0">
+        <h2 class="font-display text-[16px] font-medium text-neutral-950 dark:text-white mb-1">
+          YouTube Music
+        </h2>
+
+        <p id="musicDate" class="text-[13px] text-neutral-500 dark:text-neutral-400">
+          Checking for updates...
+        </p>
+      </div>
+
+      <a
+        id="musicBtn"
+        target="_blank"
+        class="inline-flex items-center justify-center h-10 px-5 bg-black dark:bg-white text-white dark:text-black rounded-full text-[13px] font-medium active:scale-95 transition"
+      >
+        Download
+      </a>
+    </article>
+
+  </main>
+
+  <!-- Fetch Data -->
+  <script>
+    const API_URL =
+      "https://script.google.com/macros/s/AKfycbyDiUfkDL7SIjCNIKCOq-qpl0cRSUTV9Q07r6R8gZSiTpAW0AZGF2XGQdBiYMfGmRsP/exec";
+
+    fetch(API_URL)
+      .then(response => response.json())
+      .then(data => {
+
+        document.getElementById("ytDate").innerText =
+          "Updated: " + data.youtube.updated;
+
+        document.getElementById("ytBtn").href =
+          data.youtube.url;
+
+        document.getElementById("musicDate").innerText =
+          "Updated: " + data.music.updated;
+
+        document.getElementById("musicBtn").href =
+          data.music.url;
+
+      })
+      .catch(error => {
+
+        console.error("Error fetching data:", error);
+
+        document.getElementById("ytDate").innerText =
+          "Failed to load update.";
+
+        document.getElementById("musicDate").innerText =
+          "Failed to load update.";
+
+      });
+  </script>
+
+</body>
+</html>
